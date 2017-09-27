@@ -19,18 +19,10 @@ function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
     });
 }
 
-function ajaxPOST(serviceOfferingId, requestUrl, authorizationToken, successCallback, failureCallback) {
+function ajaxPOST(serviceOfferingId, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
     var serviceInstance = {
         "serviceOffering": {"id": serviceOfferingId},
         "serviceUserId": "Cem bey"
-    };
-    var paymentCard = {
-        "cardHolderName": "John Doe",
-        "cardNumber": "5528790000000008",
-        "expireYear": "2030",
-        "expireMonth": "12",
-        "cvc": "123",
-        "registerCard": 0
     };
 
     var requestObject = {

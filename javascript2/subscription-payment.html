@@ -8,7 +8,7 @@
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         /* Padding - just for asthetics on Bootsnipp.com */
-body { margin-top:20px; }
+body { margin-top:20px; padding-top: 40px}
 
 /* CSS for Credit Card Payment form */
 .credit-card-box .panel-title {
@@ -54,27 +54,53 @@ body { margin-top:20px; }
     </style>
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <!-- Vendor libraries -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+
+    <!-- If you're using Stripe for payments -->
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
 </head>
 <body>
 
-<!-- Vendor libraries -->
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Simply Subscribly" src="">
+            </a>
+        </div>
 
-<!-- If you're using Stripe for payments -->
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">Link</a></li>
+                <li class="navbar-form">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
+                </li>
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+
+    </div>
+</nav>
 
 <div class="container">
     <div class="row">
         <!-- You can make it whatever width you want. I'm making it full width
              on <= small devices and 4/12 page width on >= medium devices -->
-        <div class="col-xs-12 col-md-4">
+        <div class="col-xs-12 col-md-6">
         
             <!-- CREDIT CARD FORM STARTS HERE -->
             <div class="panel panel-default credit-card-box">
-                <div class="panel-heading display-table" >
-                    <div class="row display-tr" >
+                <div class="panel-heading" >
+                    <div class="display-tr" >
                         <h3 class="panel-title display-td" >Payment Details</h3>
                         <div class="display-td" >                            
                             <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
@@ -153,27 +179,57 @@ body { margin-top:20px; }
             <!-- CREDIT CARD FORM ENDS HERE -->
             
             
-        </div>            
-        
-        <div class="col-xs-12 col-md-8" style="font-size: 12pt; line-height: 2em;">
-            <p><h1>Features:</h1>
-                <ul>
-                    <li>As-you-type, input formatting</li>
-                    <li>Form field validation (also as you type)</li>
-                    <li>Graceful error feedback for declined card, etc</li>
-                    <li>AJAX form submission w/ visual feedback</li>
-                    <li>Creates a Stripe credit card token</li>
-                </ul>
-            </p>
-            <p>Be sure to replace the dummy API key with a valid Stripe API key.</p>
-            
-            <p>Built upon: Bootstrap, jQuery, 
-                <a href="http://jqueryvalidation.org/">jQuery Validation Plugin</a>, 
-                <a href="https://github.com/stripe/jquery.payment">jQuery.payment library</a>,
-                and <a href="https://stripe.com/docs/stripe.js">Stripe.js</a>
-            </p>
         </div>
         
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-center">John Doe</h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>Card Number</dt><dd>5528790000000008</dd>
+                        <dt>Card Expiry</dt><dd>12 / 30</dd>
+                        <dt>CVC</dt><dd>123</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+    </button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Configuration</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="api-url" class="control-label">API Url</label>
+                            <input type="text" class="form-control" id="api-url" value="http://localhost:8080">
+                        </div>
+                        <div class="form-group">
+                            <label for="service-offering-id" class="control-label">Service Offering Id</label>
+                            <input type="text" class="form-control" id="service-offering-id" value="-1">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -187,26 +243,41 @@ function payWithAbonelikSihirbazi(e){
     e.preventDefault();
 
     /* Abort if invalid form data */
-//    if (!validator.form()) {
-//        return;
-//    }
+    if (!validator.form()) {
+        return;
+    }
 
     /* Visual feedback */
-//    $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
+    $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
 
-    console.log("do it");
-
-    var apiUrl = 'http://localhost:8080';
-    var serviceOfferingId = '-1';
-    var startUrl = apiUrl + "/api/service-instances/start";
+    var serviceOfferingId = $('#service-offering-id').val();
+    var startUrl = $('#api-url').val() + "/api/service-instances/start";
 
     var authorizationToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTUwNjU5ODE2OX0.zOVTt-EGoGvqxq_mP8lqsz49nlo4jzd6cDlhZG37g4lZMxMX1UxvxQUD4VWYvBPMxupMCTsniXQTClCrJrbB4Q";
-    ajaxPOST(serviceOfferingId, startUrl, authorizationToken, function(data){
+    var paymentCard = collectPaymentCardData();
+
+    ajaxPOST(serviceOfferingId, paymentCard, startUrl, authorizationToken, function(data){
         document.location = 'subscription-success.html';
     }, function (data){
         document.location = 'subscription-failure.html';
     });
 }
+
+var collectPaymentCardData = function () {
+    var cardExpiryTokens = $('#cardExpiry').val().split('/');
+    var expireMonth = cardExpiryTokens[0].trim()
+    var expireYear = Number(cardExpiryTokens[1].trim()) + 2000;
+    var paymentCard = {
+        "cardHolderName": "John Doe",
+        "cardNumber": $('#cardNumber').val(),
+        "expireYear": expireYear,
+        "expireMonth": expireMonth,
+        "cvc": $('#cardCVC').val(),
+        "registerCard": 0
+    };
+
+    return paymentCard;
+};
 
 /* If you're using Stripe for payments */
 function payWithStripe(e) {
