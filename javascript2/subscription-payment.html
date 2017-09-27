@@ -177,6 +177,7 @@ body { margin-top:20px; }
     </div>
 </div>
 
+<script type="text/javascript" src="app.js"></script>
 <script type="text/javascript">
 
 var $form = $('#payment-form');
@@ -186,21 +187,25 @@ function payWithAbonelikSihirbazi(e){
     e.preventDefault();
 
     /* Abort if invalid form data */
-    if (!validator.form()) {
-        return;
-    }
+//    if (!validator.form()) {
+//        return;
+//    }
 
     /* Visual feedback */
-    $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
+//    $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
 
     console.log("do it");
 
-    var apiUrl = 'http://localhost:9000';
-    var serviceOfferingId = '1';
-    var responseTextArea = $('#ajaxOutput');
-    var startUrl = apiUrl + "/service-instances/start";
+    var apiUrl = 'http://localhost:8080';
+    var serviceOfferingId = '-1';
+    var startUrl = apiUrl + "/api/service-instances/start";
 
-    ajaxPOST(serviceOfferingId, startUrl);
+    var authorizationToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTUwNjU5ODE2OX0.zOVTt-EGoGvqxq_mP8lqsz49nlo4jzd6cDlhZG37g4lZMxMX1UxvxQUD4VWYvBPMxupMCTsniXQTClCrJrbB4Q";
+    ajaxPOST(serviceOfferingId, startUrl, authorizationToken, function(data){
+        document.location = 'subscription-success.html';
+    }, function (data){
+        document.location = 'subscription-failure.html';
+    });
 }
 
 /* If you're using Stripe for payments */
@@ -272,7 +277,7 @@ jQuery.validator.addMethod("cardNumber", function(value, element) {
     return this.optional(element) || Stripe.card.validateCardNumber(value);
 }, "Please specify a valid credit card number.");
 
-jQuery.validator.addMethod("cardExpiry", function(value, element) {    
+jQuery.validator.addMethod("cardExpiry", function(value, element) {
     /* Parsing month/year uses jQuery.payment library */
     value = $.payment.cardExpiryVal(value);
     return this.optional(element) || Stripe.card.validateExpiry(value.month, value.year);
@@ -318,7 +323,7 @@ paymentFormReady = function() {
     }
 }
 
-$form.find('.subscribe').prop('disabled', true);
+//$form.find('.subscribe').prop('disabled', true);
 var readyInterval = setInterval(function() {
     if (paymentFormReady()) {
         $form.find('.subscribe').prop('disabled', false);

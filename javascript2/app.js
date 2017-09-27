@@ -19,7 +19,7 @@ function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
     });
 }
 
-function ajaxPOST(serviceOfferingId, requestUrl) {
+function ajaxPOST(serviceOfferingId, requestUrl, authorizationToken, successCallback, failureCallback) {
     var serviceInstance = {
         "serviceOffering": {"id": serviceOfferingId},
         "serviceUserId": "Cem bey"
@@ -42,7 +42,6 @@ function ajaxPOST(serviceOfferingId, requestUrl) {
 
     console.log("requestData: " + requestData);
 
-    var authorizationToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoa2FyYWtvc2UiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNTA2NTkwNjk1fQ.fy3Y7x7c5rnr41RrNbzB6__9GkbBEyjJ0cp4n0diCI2_cxA3lLsYHvaZKnbFpy-UOtlbvnRsRhB5eeqhoscJYg";
     $.ajax({
         url: requestUrl,
         type: 'POST',
@@ -53,13 +52,7 @@ function ajaxPOST(serviceOfferingId, requestUrl) {
         headers: {
             "Authorization": "Bearer " + authorizationToken
         }
-    }).done(function (data){
-        var jsonResponse = JSON.stringify(data, null, 4);
-        console.log("response: " + jsonResponse);
-        // $("#myModal").toggleClass("in");
-    }).fail(function (data, status, er) {
-        alert("error response: " + JSON.stringify(data, null, 4) + " status: " + status + " error:" + er);
-    });
+    }).done(successCallback).fail(failureCallback);
 }
 
 
