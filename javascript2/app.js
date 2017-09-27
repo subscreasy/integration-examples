@@ -19,14 +19,30 @@ function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
     });
 }
 
-function ajaxPOST(serviceOfferingId, requestUrl, responseTextArea) {
-    var serviceOffering = {"id": serviceOfferingId};
-    var requestData = JSON.stringify({
-        "serviceOffering": serviceOffering,
+function ajaxPOST(serviceOfferingId, requestUrl) {
+    var serviceInstance = {
+        "serviceOffering": {"id": serviceOfferingId},
         "serviceUserId": "Cem bey"
-    });
+    };
+    var paymentCard = {
+        "cardHolderName": "John Doe",
+        "cardNumber": "5528790000000008",
+        "expireYear": "2030",
+        "expireMonth": "12",
+        "cvc": "123",
+        "registerCard": 0
+    };
+
+    var requestObject = {
+        "serviceInstance": serviceInstance,
+        "paymentCard": paymentCard
+    };
+
+    var requestData = JSON.stringify(requestObject);
 
     console.log("requestData: " + requestData);
+
+    var authorizationToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoa2FyYWtvc2UiLCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNTA2NTkwNjk1fQ.fy3Y7x7c5rnr41RrNbzB6__9GkbBEyjJ0cp4n0diCI2_cxA3lLsYHvaZKnbFpy-UOtlbvnRsRhB5eeqhoscJYg";
     $.ajax({
         url: requestUrl,
         type: 'POST',
@@ -35,12 +51,12 @@ function ajaxPOST(serviceOfferingId, requestUrl, responseTextArea) {
         contentType: 'application/json',
         mimeType: 'application/json',
         headers: {
-            "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTUwNTEyNTUyN30.3Px74wzFNcjF_qtb_OzEqOqC9lQgta-wshnt99r_iFvwuzWDq5Xr818M0KXR7Z3IPbFgd3kMmFtwlu3uR_KIvQ"
+            "Authorization": "Bearer " + authorizationToken
         }
     }).done(function (data){
         var jsonResponse = JSON.stringify(data, null, 4);
-        responseTextArea.text(jsonResponse);
-        $("#myModal").toggleClass("in");
+        console.log("response: " + jsonResponse);
+        // $("#myModal").toggleClass("in");
     }).fail(function (data, status, er) {
         alert("error response: " + JSON.stringify(data, null, 4) + " status: " + status + " error:" + er);
     });

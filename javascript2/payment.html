@@ -56,29 +56,7 @@ body { margin-top:20px; }
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<!--
-The MIT License (MIT)
 
-Copyright (c) 2015 William Hilton
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
--->
 <!-- Vendor libraries -->
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
@@ -92,7 +70,6 @@ THE SOFTWARE.
         <!-- You can make it whatever width you want. I'm making it full width
              on <= small devices and 4/12 page width on >= medium devices -->
         <div class="col-xs-12 col-md-4">
-        
         
             <!-- CREDIT CARD FORM STARTS HERE -->
             <div class="panel panel-default credit-card-box">
@@ -114,7 +91,7 @@ THE SOFTWARE.
                                         <input 
                                             type="tel"
                                             class="form-control"
-                                            name="cardNumber"
+                                            name="cardNumber" id="cardNumber"
                                             placeholder="Valid Card Number"
                                             autocomplete="cc-number"
                                             required autofocus 
@@ -131,7 +108,7 @@ THE SOFTWARE.
                                     <input 
                                         type="tel" 
                                         class="form-control" 
-                                        name="cardExpiry"
+                                        name="cardExpiry" id="cardExpiry"
                                         placeholder="MM / YY"
                                         autocomplete="cc-exp"
                                         required 
@@ -144,7 +121,7 @@ THE SOFTWARE.
                                     <input 
                                         type="tel" 
                                         class="form-control"
-                                        name="cardCVC"
+                                        name="cardCVC" id="cardCVC"
                                         placeholder="CVC"
                                         autocomplete="cc-csc"
                                         required
@@ -156,7 +133,7 @@ THE SOFTWARE.
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label for="couponCode">COUPON CODE</label>
-                                    <input type="text" class="form-control" name="couponCode" />
+                                    <input type="text" class="form-control" name="couponCode" id="couponCode"/>
                                 </div>
                             </div>                        
                         </div>
@@ -201,31 +178,30 @@ THE SOFTWARE.
 </div>
 
 <script type="text/javascript">
-/*
-The MIT License (MIT)
 
-Copyright (c) 2015 William Hilton
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
 var $form = $('#payment-form');
-$form.find('.subscribe').on('click', payWithStripe);
+$form.find('.subscribe').on('click', payWithAbonelikSihirbazi);
+
+function payWithAbonelikSihirbazi(e){
+    e.preventDefault();
+
+    /* Abort if invalid form data */
+    if (!validator.form()) {
+        return;
+    }
+
+    /* Visual feedback */
+    $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
+
+    console.log("do it");
+
+    var apiUrl = 'http://localhost:9000';
+    var serviceOfferingId = '1';
+    var responseTextArea = $('#ajaxOutput');
+    var startUrl = apiUrl + "/service-instances/start";
+
+    ajaxPOST(serviceOfferingId, startUrl);
+}
 
 /* If you're using Stripe for payments */
 function payWithStripe(e) {
@@ -285,10 +261,11 @@ function payWithStripe(e) {
         }
     });
 }
+
 /* Fancy restrictive input formatting via jQuery.payment library*/
 $('input[name=cardNumber]').payment('formatCardNumber');
 $('input[name=cardCVC]').payment('formatCardCVC');
-$('input[name=cardExpiry').payment('formatCardExpiry');
+$('input[name=cardExpiry]').payment('formatCardExpiry');
 
 /* Form validation using Stripe client-side validation helpers */
 jQuery.validator.addMethod("cardNumber", function(value, element) {
