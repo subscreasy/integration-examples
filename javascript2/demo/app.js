@@ -19,7 +19,7 @@ function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
     });
 }
 
-function ajaxPOST(serviceOfferingId, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
+function subscribe(serviceOfferingId, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
     var serviceInstance = {
         "serviceOffering": {"id": serviceOfferingId},
         "serviceUserId": "Cem bey"
@@ -42,7 +42,7 @@ function ajaxPOST(serviceOfferingId, paymentCard, requestUrl, authorizationToken
         contentType: 'application/json',
         mimeType: 'application/json',
         headers: {
-            "Authorization": "Bearer " + authorizationToken
+            "Authorization": "Apikey " + authorizationToken
         }
     }).done(successCallback).fail(failureCallback);
 }

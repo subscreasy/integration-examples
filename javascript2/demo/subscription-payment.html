@@ -177,11 +177,11 @@ body { margin-top:20px; padding-top: 40px}
             </div>            
             <!-- CREDIT CARD FORM ENDS HERE -->
             
-            
         </div>
         
     </div>
 
+    <!--TEST CARDS STARTS HERE-->
     <div class="row">
         <div class="col-xs-12 col-md-6">
             <div class="panel panel-default">
@@ -198,6 +198,7 @@ body { margin-top:20px; padding-top: 40px}
             </div>
         </div>
     </div>
+    <!--TEST CARDS ENDS HERE-->
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
@@ -213,10 +214,36 @@ body { margin-top:20px; padding-top: 40px}
                             <input type="text" class="form-control" id="api-url" value="http://localhost:8080">
                         </div>
                         <div class="form-group">
+                            <label for="api-key" class="control-label">API Key</label>
+                            <input type="text" class="form-control" id="api-key" value="1234567890">
+                        </div>
+                        <div class="form-group">
                             <label for="service-offering-id" class="control-label">Service Offering Id</label>
                             <input type="text" class="form-control" id="service-offering-id" value="-1">
                         </div>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="successModalLabel">Success</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img src="http://s22.postimg.org/i5iji9hv1/check.png" alt="checkmark">
+                        <br/>
+                        <p style="font-size:20px;color:#5C5C5C;">Your subscription has been started</p>
+                    </div>
+                    <pre id="responseJson"></pre>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -246,11 +273,15 @@ function payWithAbonelikSihirbazi(e){
     var serviceOfferingId = $('#service-offering-id').val();
     var startUrl = $('#api-url').val() + "/api/service-instances/start";
 
-    var authorizationToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTUwNjU5ODE2OX0.zOVTt-EGoGvqxq_mP8lqsz49nlo4jzd6cDlhZG37g4lZMxMX1UxvxQUD4VWYvBPMxupMCTsniXQTClCrJrbB4Q";
+    var authorizationToken = $('#api-key').val();
     var paymentCard = collectPaymentCardData();
 
-    ajaxPOST(serviceOfferingId, paymentCard, startUrl, authorizationToken, function(data){
-        document.location = 'subscription-success.html';
+    subscribe(serviceOfferingId, paymentCard, startUrl, authorizationToken, function(data){
+        //document.location = 'subscription-success.html';
+        $('#successModal').modal('show');
+        $form.find('.subscribe').html('Start Subscription').prop('disabled', false);
+        console.log(data);
+        $('#responseJson').text(JSON.stringify(data, null, '\t'));
     }, function (data){
         document.location = 'subscription-failure.html';
     });
