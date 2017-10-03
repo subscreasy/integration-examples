@@ -20,13 +20,12 @@ function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
 }
 
 function subscribe(serviceOfferingId, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
-    var serviceInstance = {
-        "serviceOffering": {"id": serviceOfferingId},
-        "serviceUserId": "Cem bey"
-    };
+    var serviceOffering = {"id": serviceOfferingId};
+    var subscriber = {"uuid": "0c90dc55-3663-4f3d-9fdc-ca42a75a3932"};
 
     var requestObject = {
-        "serviceInstance": serviceInstance,
+        "serviceOffering": serviceOffering,
+        "subscriber": subscriber,
         "paymentCard": paymentCard
     };
 
