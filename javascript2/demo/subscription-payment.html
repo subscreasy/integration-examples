@@ -5,7 +5,7 @@
     <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
     <title>Subscription Payment with Abonelik Sihirbazı</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         /* Padding - just for asthetics on Bootsnipp.com */
 body { margin-top:20px; padding-top: 40px}
@@ -52,16 +52,13 @@ body { margin-top:20px; padding-top: 40px}
     min-width: 180px;
 }
     </style>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
     <!-- Vendor libraries -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
-
-    <!-- If you're using Stripe for payments -->
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 </head>
 <body>
@@ -102,7 +99,7 @@ body { margin-top:20px; padding-top: 40px}
                     <div class="display-tr" >
                         <h3 class="panel-title display-td" >Payment Details</h3>
                         <div class="display-td" >                            
-                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                            <img class="img-responsive pull-right" src="accepted_c22e0.png">
                         </div>
                     </div>                    
                 </div>
@@ -211,7 +208,7 @@ body { margin-top:20px; padding-top: 40px}
                     <form>
                         <div class="form-group">
                             <label for="api-url" class="control-label">API Url</label>
-                            <input type="text" class="form-control" id="api-url" value="http://localhost:8080">
+                            <input type="text" class="form-control" id="api-url" value="https://console.aboneliksihirbazi.com">
                         </div>
                         <div class="form-group">
                             <label for="api-key" class="control-label">API Key</label>
@@ -327,65 +324,6 @@ var collectPaymentCardData = function () {
     return paymentCard;
 };
 
-/* If you're using Stripe for payments */
-function payWithStripe(e) {
-    e.preventDefault();
-    
-    /* Abort if invalid form data */
-    if (!validator.form()) {
-        return;
-    }
-
-    /* Visual feedback */
-    $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
-
-    var PublishableKey = 'pk_test_6pRNASCoBOKtIshFeQd4XMUh'; // Replace with your API publishable key
-    Stripe.setPublishableKey(PublishableKey);
-    
-    /* Create token */
-    var expiry = $form.find('[name=cardExpiry]').payment('cardExpiryVal');
-    var ccData = {
-        number: $form.find('[name=cardNumber]').val().replace(/\s/g,''),
-        cvc: $form.find('[name=cardCVC]').val(),
-        exp_month: expiry.month, 
-        exp_year: expiry.year
-    };
-    
-    Stripe.card.createToken(ccData, function stripeResponseHandler(status, response) {
-        if (response.error) {
-            /* Visual feedback */
-            $form.find('.subscribe').html('Try again').prop('disabled', false);
-            /* Show Stripe errors on the form */
-            $form.find('.payment-errors').text(response.error.message);
-            $form.find('.payment-errors').closest('.row').show();
-        } else {
-            /* Visual feedback */
-            $form.find('.subscribe').html('Processing <i class="fa fa-spinner fa-pulse"></i>');
-            /* Hide Stripe errors on the form */
-            $form.find('.payment-errors').closest('.row').hide();
-            $form.find('.payment-errors').text("");
-            // response contains id and card, which contains additional card details            
-            console.log(response.id);
-            console.log(response.card);
-            var token = response.id;
-            // AJAX - you would send 'token' to your server here.
-            $.post('/account/stripe_card_token', {
-                    token: token
-                })
-                // Assign handlers immediately after making the request,
-                .done(function(data, textStatus, jqXHR) {
-                    $form.find('.subscribe').html('Payment successful <i class="fa fa-check"></i>');
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    $form.find('.subscribe').html('There was a problem').removeClass('success').addClass('error');
-                    /* Show Stripe errors on the form */
-                    $form.find('.payment-errors').text('Try refreshing the page and trying again.');
-                    $form.find('.payment-errors').closest('.row').show();
-                });
-        }
-    });
-}
-
 /* Fancy restrictive input formatting via jQuery.payment library*/
 $('input[name=cardNumber]').payment('formatCardNumber');
 $('input[name=cardCVC]').payment('formatCardCVC');
@@ -393,17 +331,17 @@ $('input[name=cardExpiry]').payment('formatCardExpiry');
 
 /* Form validation using Stripe client-side validation helpers */
 jQuery.validator.addMethod("cardNumber", function(value, element) {
-    return this.optional(element) || Stripe.card.validateCardNumber(value);
+    return true;
 }, "Please specify a valid credit card number.");
 
 jQuery.validator.addMethod("cardExpiry", function(value, element) {
     /* Parsing month/year uses jQuery.payment library */
     value = $.payment.cardExpiryVal(value);
-    return this.optional(element) || Stripe.card.validateExpiry(value.month, value.year);
+    return true;
 }, "Invalid expiration date.");
 
 jQuery.validator.addMethod("cardCVC", function(value, element) {
-    return this.optional(element) || Stripe.card.validateCVC(value);
+    return true;
 }, "Invalid CVC.");
 
 validator = $form.validate({
