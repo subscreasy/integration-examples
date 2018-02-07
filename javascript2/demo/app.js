@@ -19,12 +19,17 @@ function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
     });
 }
 
-function subscribe(serviceOfferingId, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
-    var serviceOffering = {"id": serviceOfferingId};
-    var subscriber = {"uuid": "0c90dc55-3663-4f3d-9fdc-ca42a75a3932"};
+function subscribe(subscriptionPlanId, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
+    var subscriptionPlan = {"id": subscriptionPlanId};
+    var subscriber = {
+        "secureId": "1231231",
+        "email": "johndoe@example.com",
+        "name": "John",
+        "surname": "Doe"
+    };
 
     var requestObject = {
-        "serviceOffering": serviceOffering,
+        "subscriptionPlan": subscriptionPlan,
         "subscriber": subscriber,
         "paymentCard": paymentCard
     };

@@ -212,11 +212,11 @@ body { margin-top:20px; padding-top: 40px}
                         </div>
                         <div class="form-group">
                             <label for="api-key" class="control-label">API Key</label>
-                            <input type="text" class="form-control" id="api-key" value="1234567890" />
+                            <input type="text" class="form-control" id="api-key" value="brs-1234567890" />
                         </div>
                         <div class="form-group">
-                            <label for="service-offering-id" class="control-label">Service Offering Id</label>
-                            <input type="text" class="form-control" id="service-offering-id" value="-1" />
+                            <label for="subscription-plan" class="control-label">Subscription Plan</label>
+                            <input type="text" class="form-control" id="subscription-plan" value="8" />
                         </div>
                     </form>
                 </div>
@@ -289,13 +289,13 @@ function payWithAbonelikSihirbazi(e){
     /* Visual feedback */
     $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
 
-    var serviceOfferingId = $('#service-offering-id').val();
-    var startUrl = $('#api-url').val() + "/api/service-instances/start";
+    var subscriptionPlanId = $('#subscription-plan').val();
+    var startUrl = $('#api-url').val() + "/api/subscription/start";
 
     var authorizationToken = $('#api-key').val();
     var paymentCard = collectPaymentCardData();
 
-    subscribe(serviceOfferingId, paymentCard, startUrl, authorizationToken, function(data){
+    subscribe(subscriptionPlanId, paymentCard, startUrl, authorizationToken, function(data){
         //document.location = 'subscription-success.html';
         $('#successModal').modal('show');
         $form.find('.subscribe').html('Start Subscription').prop('disabled', false);
