@@ -295,7 +295,14 @@ function payWithAbonelikSihirbazi(e){
     var authorizationToken = $('#api-key').val();
     var paymentCard = collectPaymentCardData();
 
-    subscribe(subscriptionPlanId, paymentCard, startUrl, authorizationToken, function(data){
+    var subscriber = {
+        "secureId": "1231231",
+        "email": "johndoe@example.com",
+        "name": "John",
+        "surname": "Doe"
+    };
+
+    subscribe(subscriptionPlanId, subscriber, paymentCard, startUrl, authorizationToken, function(data){
         //document.location = 'subscription-success.html';
         $('#successModal').modal('show');
         $form.find('.subscribe').html('Start Subscription').prop('disabled', false);

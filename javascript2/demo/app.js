@@ -19,14 +19,8 @@ function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
     });
 }
 
-function subscribe(subscriptionPlanId, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
+function subscribe(subscriptionPlanId, subscriber, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
     var subscriptionPlan = {"id": subscriptionPlanId};
-    var subscriber = {
-        "secureId": "1231231",
-        "email": "johndoe@example.com",
-        "name": "John",
-        "surname": "Doe"
-    };
 
     var requestObject = {
         "subscriptionPlan": subscriptionPlan,
