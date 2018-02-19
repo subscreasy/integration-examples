@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    <title>Subscription Payment with Abonelik Sihirbazı</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="app.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Vendor libraries -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="payment.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-3"></div>
+
+        <div class="col-6">
+            <!--SUBSCRIPTION DETAILS STARTS HERE-->
+            <div class="card">
+                <div class="card-header">
+                    <h4>Subscription Details</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row"><h5 class="col-md-12" id="subscriptionPlanName"></h5></div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6"><h5>Price</h5></div>
+                        <div class="col-md-6 pull-right"><h4 class="pull-right" id="subscriptionPlanPrice"></h4></div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <!-- CREDIT CARD FORM STARTS HERE -->
+            <div class="card credit-card-box">
+                <div class="card-header" >
+                    <div class="display-tr" >
+                        <h3 class="panel-title display-td" >Payment Details</h3>
+                        <div class="display-td" >
+                            <img class="img-responsive pull-right" src="accepted_c22e0.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <div class="form-group">
+                                    <label for="cardNumber">CARD NUMBER</label>
+                                    <div class="input-group">
+                                        <input type="tel" class="form-control" name="cardNumber" id="cardNumber" placeholder="Valid Card Number"
+                                               autocomplete="cc-number" required="required" autofocus="autofocus" />
+                                        <div class="input-group-append"><span class="input-group-text"><i class="fa fa-credit-card"></i></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-md-6">
+                                <div class="form-group">
+                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span> DATE</label>
+                                    <input
+                                            type="tel"
+                                            class="form-control"
+                                            name="cardExpiry" id="cardExpiry"
+                                            placeholder="MM / YY"
+                                            autocomplete="cc-exp"
+                                            required="required"
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-md-6 pull-right">
+                                <div class="form-group">
+                                    <label for="cardCVC">CV CODE</label>
+                                    <input
+                                            type="tel"
+                                            class="form-control"
+                                            name="cardCVC" id="cardCVC"
+                                            placeholder="CVC"
+                                            autocomplete="cc-csc"
+                                            required="required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="couponCode">COUPON CODE</label>
+                                    <input type="text" class="form-control" name="couponCode" id="couponCode"/>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="subscribe">&nbsp;</label>
+                                    <button class="subscribe btn btn-success btn-block" type="button" id="subscribe">Start Subscription</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-xs-12">
+                                <p class="payment-errors"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- CREDIT CARD FORM ENDS HERE -->
+
+            <br />
+
+            <!--TEST CARDS STARTS HERE-->
+            <div class="card">
+                <div class="card-header">
+                    <div class="panel-title text-center">John Doe</div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6"><dl class="dl-horizontal"><dt>Card Number</dt><dd>5528790000000008</dd></dl></div>
+                        <div class="col-md-3"><dl class="dl-horizontal"><dt>Card Expiry</dt><dd>12 / 30</dd></dl></div>
+                        <div class="col-md-3"><dl class="dl-horizontal"><dt>CVC</dt><dd>123</dd></dl></div>
+                    </div>
+                </div>
+            </div>
+            <!--TEST CARDS ENDS HERE-->
+        </div>
+
+        <div class="col-3">
+            <!--SUBSCRIBER DETAILS STARTS HERE-->
+            <div class="card">
+                <div class="card-header"><h4>Subscriber Details</h4></div>
+                <div class="card-body">
+                    <div class="form-group"><label class="form-control-label" for="field_name">Name</label>
+                        <input class="form-control ng-untouched ng-pristine ng-valid" id="field_name" name="name" type="text" />
+                    </div>
+                    <div class="form-group"><label class="form-control-label" for="field_surname">Surname</label>
+                        <input class="form-control ng-untouched ng-pristine ng-valid" id="field_surname" name="surname" type="text" />
+                    </div>
+                    <div class="form-group"><label class="form-control-label" for="field_email">Email</label>
+                        <input type="text" class="form-control ng-untouched ng-pristine ng-valid" id="field_email" name="email"  />
+                    </div>
+                </div>
+            </div>
+            <!--SUBSCRIBER DETAILS ENDS HERE-->
+
+            <br />
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="successModalLabel">Success</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img src="check.png" alt="checkmark" />
+                        <br/>
+                        <p style="font-size:20px;color:#5C5C5C;">Your subscription has been started</p>
+                    </div>
+                    <pre id="responseJson"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="failureModal" tabindex="-1" role="dialog" aria-labelledby="failureModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="failureModalLabel">Success</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img src="error.png" alt="error" />
+                        <br/>
+                        <p style="font-size:20px;color:#5C5C5C;">A problem has occured while processing your subscription request.</p>
+                    </div>
+                    <pre id="failureResponseJson"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+var $form = $('#payment-form');
+$form.find('.subscribe').on('click', payWithAbonelikSihirbazi);
+
+var collectPaymentCardData = function () {
+    var cardExpiryTokens = $('#cardExpiry').val().split('/');
+    var expireMonth = cardExpiryTokens[0].trim()
+    var expireYear = Number(cardExpiryTokens[1].trim()) + 2000;
+    var paymentCard = {
+        "cardHolderName": "John Doe",
+        "cardNumber": $('#cardNumber').val(),
+        "expireYear": expireYear,
+        "expireMonth": expireMonth,
+        "cvc": $('#cardCVC').val(),
+        "registerCard": 0
+    };
+
+    return paymentCard;
+};
+
+function payWithAbonelikSihirbazi(e){
+    e.preventDefault();
+
+    /* Abort if invalid form data */
+    if (!validator.form()) {
+        return;
+    }
+
+    /* Visual feedback */
+    $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
+
+    var subscriptionPlanId = qs('subscriptionPlanId');
+    var subscriber = { "secureId": qs('subscriberId') };
+    var paymentCard = collectPaymentCardData();
+
+    subscribe(subscriptionPlanId, subscriber, paymentCard, function(data){
+        $('#successModal').modal('show');
+        $form.find('.subscribe').html('Start Subscription').prop('disabled', false);
+        console.log(data);
+        $('#responseJson').text(JSON.stringify(data, null, '\t'));
+    }, function (data){
+        $('#failureModal').modal('show');
+        $('#failureResponseJson').text(JSON.stringify(data, null, '\t'));
+        $form.find('.subscribe').html('Start Subscription').prop('disabled', false);
+    });
+}
+
+validator = $form.validate({
+    rules: {
+        cardNumber: { required: true, cardNumber: true },
+        cardExpiry: { required: true, cardExpiry: true },
+        cardCVC: { required: true, cardCVC: true }
+    },
+    highlight: function(element) {
+        $(element).closest('.form-control').removeClass('success').addClass('error');
+    },
+    unhighlight: function(element) {
+        $(element).closest('.form-control').removeClass('error').addClass('success');
+    },
+    errorPlacement: function(error, element) {
+        $(element).closest('.form-group').append(error);
+    }
+});
+
+function getSubscriptionPlanDetailsForCompany() {
+    getSubscriptionPlan(qs('subscriptionPlanId'), function(data) {
+        console.log("success: " + JSON.stringify(data));
+        $("#subscriptionPlanPrice").text(data.price);
+        $("#subscriptionPlanName").text(data.name);
+    }, function (data) {
+        console.log("failure: " + JSON.stringify(data));
+    });
+}
+
+$("#field_email").val(qs('email'));
+getSubscriptionPlanDetailsForCompany();
+
+</script>
+</body>
+</html>
