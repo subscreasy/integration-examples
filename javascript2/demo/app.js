@@ -1,27 +1,12 @@
 
-function ajaxGET(requestTextArea, requestUrl, responseTextArea) {
-    var requestData = requestTextArea.val();
-    console.log("requestData: " + requestData)
-    $.ajax({
-        url: requestUrl,
-        type: 'GET',
-        success: function (data) {
-            console.log("response: " + data);
-            responseTextArea.text(data);
+var apiKey = "brs-1234567890"; // TODO REPLACE WITH YOUR OWN API KEY
+var apiUrl = "https://console.aboneliksihirbazi.com/api";
 
-            if (requestTextArea.attr("id") == "resetRequest") {
-                $("#loggedInUser").text("");
-            }
-        },
-        error: function (data, status, er) {
-            console.log("error response: " + data + " status: " + status + " error:" + er);
-        }
-    });
-}
+function subscribe(subscriptionPlanId, subscriber, paymentCard, successCallback, failureCallback) {
+    var requestUrl = apiUrl + "/subscription/start";
+    console.log("subscribe: " + apiUrl);
 
-function subscribe(subscriptionPlanId, subscriber, paymentCard, requestUrl, authorizationToken, successCallback, failureCallback) {
     var subscriptionPlan = {"id": subscriptionPlanId};
-
     var requestObject = {
         "subscriptionPlan": subscriptionPlan,
         "subscriber": subscriber,
@@ -29,7 +14,6 @@ function subscribe(subscriptionPlanId, subscriber, paymentCard, requestUrl, auth
     };
 
     var requestData = JSON.stringify(requestObject);
-
     console.log("requestData: " + requestData);
 
     $.ajax({
@@ -40,11 +24,65 @@ function subscribe(subscriptionPlanId, subscriber, paymentCard, requestUrl, auth
         contentType: 'application/json',
         mimeType: 'application/json',
         headers: {
-            "Authorization": "Apikey " + authorizationToken
+            "Authorization": "Apikey " + apiKey
         }
     }).done(successCallback).fail(failureCallback);
 }
 
+function getActiveSubscriptions(subscriber, successCallback, failureCallback){
+    var requestUrl = apiUrl + "/subsriptions/subscriber/" + subscriber;
+    console.log("getActiveSubscriptions: " + apiUrl);
+
+    $.ajax({
+        url: requestUrl,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        mimeType: 'application/json',
+        headers: {
+            "Authorization": "Apikey " + apiKey
+        }
+    }).done(successCallback).fail(failureCallback);
+
+}
+
+function getSubscriptionPlans(apiUrl, apiKey, successCallback, failureCallback) {
+    var requestUrl = apiUrl + "/subscription-plans";
+    console.log("api url: " + apiUrl);
+
+    $.ajax({
+        url: requestUrl,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        mimeType: 'application/json',
+        headers: {
+            "Authorization": "Apikey " + apiKey
+        }
+    }).done(successCallback).fail(failureCallback);
+}
+
+function getSubscriptionPlan(subscriptionPlanId, successCallback, failureCallback) {
+    var requestUrl = apiUrl + "/subscription-plans/" + subscriptionPlanId;
+    console.log("api url: " + apiUrl);
+
+    $.ajax({
+        url: requestUrl,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        mimeType: 'application/json',
+        headers: {
+            "Authorization": "Apikey " + apiKey
+        }
+    }).done(successCallback).fail(failureCallback);
+}
+
+function qs(key) {
+    key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&"); // escape RegEx meta chars
+    var match = location.search.match(new RegExp("[?&]"+key+"=([^&]+)(&|$)"));
+    return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+}
 
 
 
