@@ -1,0 +1,11 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "Abonelik Sihirbazı 3DSecure Ornek Implementasyon",
+  "main": "login.html",
+  "scripts": {
+    "test": "http-server"
+  },
+  "author": "Halil Karakose <halil@aboneliksihirbazi.com>",
+  "license": "ISC"
+}

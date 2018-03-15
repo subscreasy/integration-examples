@@ -58,10 +58,6 @@
 
     function getSubscriptionPlansOfCompany(){
         getSubscriptionPlans(apiUrl, apiKey, function(data){
-
-            console.log("success: " + JSON.stringify(data));
-            console.log("data.lenght: " + data.length);
-
             var subscriptionPlanPanel = $("#subscription-plan-info");
             for (var i = 0; i < data.length; i++) {
                 var subscriptionPlan = data[i];
@@ -76,7 +72,7 @@
     }
 
     function displayPaymentForm(subscriptionPlan){
-        document.location.href = "payment.html?subscriberId=" + subscriberSecureId + "&email=" + qs('email') + "&subscriptionPlanId=" + subscriptionPlan;
+        document.location.href = "payment-3ds.html?subscriberId=" + subscriberSecureId + "&email=" + qs('email') + "&subscriptionPlanId=" + subscriptionPlan;
     }
 
     function getActiveSubscriptionsOfSubscriber() {
@@ -85,16 +81,17 @@
             var subscriptionData = "<table class='table table-sm'>";
             subscriptionData += "<thead><th>Subscription</th><th>Start Date</th><th>End Date</th></thead>";
             for (var i=0; i<data.length; i++) {
+                console.log("subscriptionData: " + JSON.stringify(data[i]));
+
                 var startDate = new Date(data[i].startDate).toLocaleDateString();
                 var endDate = data[i].endDate === undefined ? '-' : new Date(data[i].endDate).toLocaleDateString();
                 subscriptionData += "<tr>" +
-                    "<td>" + data[i].subscriptionPlan.name + "</td>" +
+                    "<td>" + data[i].offer.name + "</td>" +
                     "<td>" + startDate + "</td>" +
                     "<td>" + endDate + "</td>" +
                     "</tr>";
             }
             subscriptionData += "</table>";
-            console.log("subscriptionData: " + subscriptionData);
             $("#subscription-info").append(subscriptionData);
         }, function (data) {
             console.log("failure: " + JSON.stringify(data));

@@ -2,8 +2,35 @@
 var apiKey = "brs-1234567890"; // TODO REPLACE WITH YOUR OWN API KEY
 var apiUrl = "https://console.aboneliksihirbazi.com/api";
 
-function subscribe(subscriptionPlanId, subscriber, paymentCard, successCallback, failureCallback) {
+function subscribe(offerId, subscriber, paymentCard, successCallback, failureCallback) {
     var requestUrl = apiUrl + "/subscription/start";
+    console.log("subscribe: " + apiUrl);
+
+    var offer = {"id": offerId};
+    var requestObject = {
+        "offer": offer,
+        "subscriber": subscriber,
+        "paymentCard": paymentCard
+    };
+
+    var requestData = JSON.stringify(requestObject);
+    console.log("requestData: " + requestData);
+
+    $.ajax({
+        url: requestUrl,
+        type: 'POST',
+        dataType: 'json',
+        data: requestData,
+        contentType: 'application/json',
+        mimeType: 'application/json',
+        headers: {
+            "Authorization": "Apikey " + apiKey
+        }
+    }).done(successCallback).fail(failureCallback);
+}
+
+function subscribe3ds(subscriptionPlanId, subscriber, paymentCard, successCallback, failureCallback) {
+    var requestUrl = apiUrl + "/subscription/start/3ds";
     console.log("subscribe: " + apiUrl);
 
     var subscriptionPlan = {"id": subscriptionPlanId};
@@ -23,6 +50,7 @@ function subscribe(subscriptionPlanId, subscriber, paymentCard, successCallback,
         data: requestData,
         contentType: 'application/json',
         mimeType: 'application/json',
+        accept: 'text/html',
         headers: {
             "Authorization": "Apikey " + apiKey
         }
