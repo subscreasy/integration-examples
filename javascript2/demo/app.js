@@ -58,7 +58,7 @@ function subscribe3ds(subscriptionPlanId, subscriber, paymentCard, successCallba
 }
 
 function getActiveSubscriptions(subscriber, successCallback, failureCallback){
-    var requestUrl = apiUrl + "/subsriptions/subscriber/" + subscriber;
+    var requestUrl = apiUrl + "/subscriptions/subscriber/" + subscriber;
     console.log("getActiveSubscriptions: " + apiUrl);
 
     $.ajax({
