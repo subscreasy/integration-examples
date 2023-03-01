@@ -1,0 +1,107 @@
+<html>
+<head>
+</head>
+<body>
+<h1>Success</h1>
+
+<h3>Returned values</h3>
+<div>
+    <b>subscriptionId</b>
+    <span id="subscriptionId"></span>
+</div>
+<div>
+    <b>paymentId</b>
+    <span id="paymentId"></span>
+</div>
+<div>
+    <b>authCode</b>
+    <span id="authCode"></span>
+</div>
+<div>
+    <b>nextChargingDate</b>
+    <span id="nextChargingDate"></span>
+</div>
+<div>
+    <b>subscriberSecureId</b>
+    <span id="subscriberSecureId"></span>
+</div>
+<div>
+    <b>subscriberName</b>
+    <span id="subscriberName"></span>
+</div>
+<div>
+    <b>subscriberSurname</b>
+    <span id="subscriberSurname"></span>
+</div>
+<div>
+    <b>startDate</b>
+    <span id="startDate"></span>
+</div>
+<div>
+    <b>endDate</b>
+    <span id="endDate"></span>
+</div>
+<div>
+    <b>offerId</b>
+    <span id="offerId"></span>
+</div>
+<div>
+    <b>offerName</b>
+    <span id="offerName"></span>
+</div>
+<div>
+    <b>price</b>
+    <span id="price"></span>
+</div>
+<div>
+    <b>Trial period:</b>
+    <span id="trial-period"></span>
+</div>
+<script>
+    function qs(key) {
+        key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&"); // escape RegEx meta chars
+        var match = location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
+        return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+    }
+
+    let subscriptionId = qs("subscriptionId");
+    document.getElementById("subscriptionId").innerText = subscriptionId;
+
+    let paymentId = qs("paymentId");
+    document.getElementById("paymentId").innerText = paymentId;
+
+    let authCode = qs("authCode");
+    document.getElementById("authCode").innerText = authCode;
+
+    let nextChargingDate = qs("nextChargingDate");
+    document.getElementById("nextChargingDate").innerText = nextChargingDate;
+
+    let subscriberSecureId = qs("subscriberSecureId");
+    document.getElementById("subscriberSecureId").innerText = subscriberSecureId;
+
+    let subscriberName = qs("subscriberName");
+    document.getElementById("subscriberName").innerText = subscriberName;
+
+    let subscriberSurname = qs("subscriberSurname");
+    document.getElementById("subscriberSurname").innerText = subscriberSurname;
+
+    let startDate = qs("startDate");
+    document.getElementById("startDate").innerText = startDate;
+
+    let endDate = qs("endDate");
+    document.getElementById("endDate").innerText = endDate;
+
+    let offerId = qs("offerId");
+    document.getElementById("offerId").innerText = offerId;
+
+    let offerName = qs("offerName");
+    document.getElementById("offerName").innerText = offerName;
+
+    let price = qs("price");
+    document.getElementById("price").innerText = price;
+
+    let trialPeriod = qs("trial");
+    document.getElementById("trial-period").innerText = trialPeriod;
+</script>
+</body>
+</html>

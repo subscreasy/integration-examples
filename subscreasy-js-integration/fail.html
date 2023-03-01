@@ -1,0 +1,17 @@
+<html>
+<head></head>
+<body>
+<h1>Failure</h1>
+<div id="errorText"></div>
+<script>
+    function qs(key) {
+        key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&"); // escape RegEx meta chars
+        var match = location.search.match(new RegExp("[?&]" + key + "=([^&]+)(&|$)"));
+        return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+    }
+
+    let errorText = qs("errorText");
+    document.getElementById("errorText").innerText = errorText;
+</script>
+</body>
+</html>

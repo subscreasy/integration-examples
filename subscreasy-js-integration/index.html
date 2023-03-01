@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Subscreasy Payment Form Integration</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        // DO NOT FORGET TO UPDATE THESE
+        let companySiteName = "iyzico"
+        let offerId = "4946";
+
+        let callbackUrl = "http://localhost:5173/success.html";
+        let errorCallbackUrl = "http://localhost:5173/fail.html";
+
+        function payWithSubscreasy() {
+            console.log("payWithSubscreasy")
+
+            let subscriptionRequest = fetchParameters();
+
+            let ajax = $.ajax({
+                url: "https://" + companySiteName + ".aboneliks.xyz/openapi/pay/" + offerId,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(subscriptionRequest),
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            });
+
+            ajax.done(function (html) {
+                console.log("success" + JSON.stringify(html));
+                $("#response").text(html);
+
+                // This line is required since it replaces existing content with 3DS page. If you delete it, you will not proceed to the next step of payment.
+                document.write(html);
+            });
+
+            // Following errors could be returned from Subscreasy.
+            const expectedErrors = ["required.subscriber.name", "required.subscriber.surname", "required.card.expiry", "required.card.number", "required.card.cvc", "required.offer.id", "required.shipping.address", "notfound.offer", "alreadysubscribed", "charging.failed"];
+
+            ajax.fail(function (request, textStatus, errorThrown) {
+                if (request.statusText === "error") {
+                    console.log("errorCode: " + request.getResponseHeader('X-subscreasy-error-key'));
+                    console.log("errorText: " + request.getResponseHeader('X-subscreasy-error'));
+                    $("#errorText").text(request.getResponseHeader('X-subscreasy-error-key') + " - " + request.getResponseHeader('X-subscreasy-error'));
+                } else {
+                    console.log("UNEXPECTED ERROR: " + JSON.stringify(request));
+                }
+            });
+        }
+
+        function fetchParameters() {
+            return {
+                "subscriber": {
+                    "name": document.getElementsByName("subscriber.name")[0].value,
+                    "surname": document.getElementsByName("subscriber.surname")[0].value,
+                    "email": document.getElementsByName("subscriber.email")[0].value
+                }, "offer": {
+                    "id": offerId
+                }, "paymentCard": {
+                    "cardHolderName": document.getElementsByName("paymentCard.cardHolderName")[0].value,
+                    "cardNumber": document.getElementsByName("paymentCard.cardNumber")[0].value,
+                    "expireMonth": document.getElementsByName("paymentCard.expireMonth")[0].value,
+                    "expireYear": document.getElementsByName("paymentCard.expireYear")[0].value,
+                    "cvc": document.getElementsByName("paymentCard.cvc")[0].value
+                }, "paymentType": "CC"
+                , "callbackUrl": callbackUrl // displayed after successful charging
+                , "errorCallbackUrl": errorCallbackUrl // errors returned from payment gateway
+            };
+        }
+
+    </script>
+</head>
+<body>
+<div id="app">
+    <form method="post" action="javascript:void(0);" id="payment-form" class="container" style="width: 800px">
+        <label for="subscriber.name" class="column">Subscriber Name: </label>
+        <div class="column">
+            <input type="text" name="subscriber.name" id="subscriber.name" value="Halil" />
+        </div>
+
+        <label for="subscriber.surname" class="column">Subscriber Surname: </label>
+        <div class="column">
+            <input type="text" name="subscriber.surname" id="subscriber.surname" value="Karakose" />
+        </div>
+
+        <label for="subscriber.email" class="column">Email: </label>
+        <div class="column">
+            <input type="text" name="subscriber.email" id="subscriber.email" value="halilkarakose@gmail.com" />
+        </div>
+
+        <label for="subscriber.phoneNumber" class="column">Phone Number: </label>
+        <div class="column">
+            <input type="text" name="subscriber.phoneNumber" id="subscriber.phoneNumber" value="5555555" />
+        </div>
+
+        <label for="paymentCard.cardHolderName" class="column">Cardholder Name: </label>
+        <div class="column">
+            <input type="text" name="paymentCard.cardHolderName" id="paymentCard.cardHolderName" value="Halil Karakose" />
+        </div>
+
+        <label for="paymentCard.cardNumber" class="column">Card Number: </label>
+        <div class="column">
+            <input type="text" name="paymentCard.cardNumber" id="paymentCard.cardNumber" value="5526080000000006" />
+        </div>
+
+        <label for="paymentCard.expireMonth" class="column">Expiry Month: </label>
+        <div class="column">
+            <input type="text" name="paymentCard.expireMonth" id="paymentCard.expireMonth" value="12" />
+        </div>
+
+        <label for="paymentCard.expireYear" class="column">Expiry Year: </label>
+        <div class="column">
+            <input type="text" name="paymentCard.expireYear" id="paymentCard.expireYear" value="23" />
+        </div>
+
+        <label for="paymentCard.cvc" class="column">Security Code:</label>
+        <div class="column">
+            <input type="text" name="paymentCard.cvc" id="paymentCard.cvc" value="000" />
+        </div>
+        <br/>
+
+        <input type="hidden" name="paymentType" value="CC"/>
+
+        <div class="column">
+        <input type="checkbox" name="privacyPolicyUrl" value="true"/>I accept privacy policy<br/>
+        </div>
+        <div class="column"></div>
+
+        <label for="submit-button" class="column">&nbsp;</label>
+        <div class="column">
+            <input type="submit" value="Submit" id="submit-button" onclick="payWithSubscreasy()"/>
+        </div>
+
+        <div class="column"></div>
+        <div class="column" id="errorText"></div>
+    </form>
+</div>
+<div id="response"></div>
+<script type="module" src="/main.js"></script>
+</body>
+</html>
+
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap; /* Allow flex items to wrap onto multiple lines */
+    }
+
+    .column {
+        flex-basis: 50%;
+        padding: 10px;
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+</style>
+
+<style>
+    button {
+        border-radius: 8px;
+        border: 1px solid transparent;
+        padding: 0.6em 1.2em;
+        font-size: 1em;
+        font-weight: 500;
+        font-family: inherit;
+        background-color: #1a1a1a;
+        cursor: pointer;
+        transition: border-color 0.25s;
+    }
+    button:hover {
+        border-color: #646cff;
+    }
+    button:focus,
+    button:focus-visible {
+        outline: 4px auto -webkit-focus-ring-color;
+    }
+</style>
