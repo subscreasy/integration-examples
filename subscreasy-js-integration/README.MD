@@ -1,3 +1,11 @@
+### Prerequisites
+
+It is required that you have a sandbox account in https://test.subscreasy.com to run this example.
+
+Once you have created a sandbox account, login to the dashboard and configure your payment gateway.
+
+Create an offer.
+
 ### Download dependencies
 
 ```
